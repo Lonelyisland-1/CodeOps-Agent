@@ -7,6 +7,7 @@ from textwrap import dedent
 from typing import Dict, Any, List
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_qwq import ChatQwen
+from app.core.llm_factory import llm_factory
 from pydantic import BaseModel, Field
 from loguru import logger
 
@@ -119,7 +120,7 @@ async def planner(state: PlanExecuteState) -> Dict[str, Any]:
             experience_context = ""
 
         # 步骤4: 创建 LLM 并生成计划
-        llm = ChatQwen(
+        llm = llm_factory.create_chat_model(
             model=config.rag_model,
             api_key=config.dashscope_api_key,
             temperature=0

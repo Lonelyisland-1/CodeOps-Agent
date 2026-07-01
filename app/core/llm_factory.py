@@ -19,7 +19,7 @@ class LLMFactory:
     """LLM 工厂类 - 使用 OpenAI 兼容模式"""
 
     # 阿里云 DashScope OpenAI 兼容模式 URL
-    DASHSCOPE_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    DASHSCOPE_BASE_URL = "https://api.deepseek.com/v1"
 
     @staticmethod
     def create_chat_model(

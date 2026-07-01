@@ -26,7 +26,7 @@ class Settings(BaseSettings):
 
     # DashScope 配置
     dashscope_api_key: str = ""  # 默认空字符串，实际使用需从环境变量加载
-    dashscope_model: str = "qwen-max"
+    dashscope_model: str = "deepseek-v4-flash"
     dashscope_embedding_model: str = "text-embedding-v4"  # v4 支持多种维度（默认 1024）
 
     # Milvus 配置
@@ -36,7 +36,7 @@ class Settings(BaseSettings):
 
     # RAG 配置
     rag_top_k: int = 3
-    rag_model: str = "qwen-max"  # 使用快速响应模型，不带扩展思考
+    rag_model: str = "deepseek-v4-flash"  # 使用快速响应模型，不带扩展思考
 
     # 文档分块配置
     chunk_max_size: int = 800

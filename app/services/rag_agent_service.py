@@ -18,6 +18,7 @@ from langgraph.graph.message import REMOVE_ALL_MESSAGES, add_messages
 from loguru import logger
 from typing_extensions import TypedDict
 from langchain_qwq import ChatQwen
+from langchain_openai import ChatOpenAI
 
 from app.config import config
 from app.tools import DEFAULT_LOCAL_AGENT_TOOLS
@@ -27,6 +28,7 @@ from app.agent.mcp_client import (
     format_exception_chain,
     suggest_mcp_transport,
 )
+from app.core.llm_factory import llm_factory
 
 # 阿里千问大模型和langchain集成参考： https://docs.langchain.com/oss/python/integrations/chat/qwen
 # 注意：需要配置环境变量 DASHSCOPE_API_BASE=https://dashscope.aliyuncs.com/compatible-mode/v1 否则默认访问的是新加坡站点
@@ -79,7 +81,7 @@ def trim_messages_middleware(state: AgentState) -> dict[str, Any] | None:
 
 
 class RagAgentService:
-    """RAG Agent 服务 - 使用 LangGraph + ChatQwen 原生集成"""
+    """RAG Agent 服务 - 使用 LangGraph + ChatOpenAI 原生集成"""
 
     def __init__(self, streaming: bool = True):
         """初始化 RAG Agent 服务
@@ -92,7 +94,7 @@ class RagAgentService:
         self.system_prompt = self._build_system_prompt()
 
 
-        self.model = ChatQwen(
+        self.model = llm_factory.create_chat_model(
             model=self.model_name,
             api_key=config.dashscope_api_key,
             temperature=0.7,
@@ -112,7 +114,7 @@ class RagAgentService:
         self.agent = None
         self._agent_initialized = False
 
-        logger.info(f"RAG Agent 服务初始化完成 (ChatQwen), model={self.model_name}, streaming={streaming}")
+        logger.info(f"RAG Agent 服务初始化完成 (ChatOpenAI), model={self.model_name}, streaming={streaming}")
 
     async def _initialize_agent(self):
         """异步初始化 Agent（包括 MCP 工具）"""

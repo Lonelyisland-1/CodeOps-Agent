@@ -6,6 +6,7 @@ Executor 节点：执行单个步骤
 from typing import Dict, Any
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_qwq import ChatQwen
+from app.core.llm_factory import llm_factory
 from langgraph.prebuilt import ToolNode
 from loguru import logger
 
@@ -47,7 +48,7 @@ async def executor(state: PlanExecuteState) -> Dict[str, Any]:
         all_tools = local_tools + mcp_tools
 
         # 创建 LLM（绑定工具）
-        llm = ChatQwen(
+        llm = llm_factory.create_chat_model(
             model=config.rag_model,
             api_key=config.dashscope_api_key,
             temperature=0
