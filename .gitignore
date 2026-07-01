@@ -46,6 +46,7 @@ poetry.lock
 
 # Claude / AI assistant
 .claude/
+CLAUDE.md
 .codebuddy/
 
 # Logs

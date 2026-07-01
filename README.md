@@ -25,7 +25,6 @@
 
 ### 环境要求
 - Python 3.10+
-- 阿里云 DashScope API Key ([获取地址](https://dashscope.aliyun.com/))
 
 ### 安装和启动
 
