@@ -51,35 +51,49 @@ def retrieve_knowledge(query: str) -> Tuple[str, List[Document]]:
 def format_docs(docs: List[Document]) -> str:
     """
     格式化文档列表为上下文文本
-    
+
     Args:
         docs: 文档列表
-        
+
     Returns:
         str: 格式化的上下文文本
     """
     formatted_parts = []
-    
+
     for i, doc in enumerate(docs, 1):
         # 提取元数据
         metadata = doc.metadata
         source = metadata.get("_file_name", "未知来源")
-        
+
         # 提取标题信息 (如果有)
         headers = []
         for key in ["h1", "h2", "h3"]:
             if key in metadata and metadata[key]:
                 headers.append(metadata[key])
-        
+
         header_str = " > ".join(headers) if headers else ""
-        
+
         # 构建格式化文本
         formatted = f"【参考资料 {i}】"
         if header_str:
             formatted += f"\n标题: {header_str}"
         formatted += f"\n来源: {source}"
         formatted += f"\n内容:\n{doc.page_content}\n"
-        
+
         formatted_parts.append(formatted)
-    
+
     return "\n".join(formatted_parts)
+
+
+@tool
+def list_knowledge_base_files() -> str:
+    """列出知识库中所有可用的文件列表。当用户询问"知识库有哪些文件""数据库有什么文档""你学习了哪些资料"时调用此工具。"""
+    logger.info("列出知识库文件工具被调用")
+    sources = vector_store_manager.list_sources()
+    if not sources:
+        return "知识库中暂无文件。"
+    result = "知识库中包含以下文件：\n"
+    for i, source in enumerate(sources, 1):
+        result += f"{i}. {source}\n"
+    logger.info(f"列出知识库文件完成: {len(sources)} 个文件")
+    return result

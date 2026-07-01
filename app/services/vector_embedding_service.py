@@ -32,7 +32,7 @@ class DashScopeEmbeddings(Embeddings):
             dimensions: 向量维度
         """
         if not api_key or api_key == "your-api-key-here":
-            raise ValueError("请设置环境变量 DASHSCOPE_API_KEY")
+            raise ValueError("请设置环境变量 DASHSCOPE_EMBEDDING_API_KEY")
         
         self.client = OpenAI(
             api_key=api_key,
@@ -121,9 +121,9 @@ class DashScopeEmbeddings(Embeddings):
             raise RuntimeError(f"查询嵌入失败: {e}") from e
 
 
-# 全局单例
+# 全局单例 - 使用专用的 embedding API Key（DashScope），而非对话 API Key（DeepSeek）
 vector_embedding_service = DashScopeEmbeddings(
-    api_key=config.dashscope_api_key,
+    api_key=config.dashscope_embedding_api_key,
     model=config.dashscope_embedding_model,
     dimensions=1024
 )

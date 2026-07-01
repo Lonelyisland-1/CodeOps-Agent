@@ -25,8 +25,9 @@ class Settings(BaseSettings):
     port: int = 9900
 
     # DashScope 配置
-    dashscope_api_key: str = ""  # 默认空字符串，实际使用需从环境变量加载
+    dashscope_api_key: str = ""  # 对话模型 API Key（DeepSeek 或其他 Chat API）
     dashscope_model: str = "deepseek-v4-flash"
+    dashscope_embedding_api_key: str = ""  # 向量嵌入模型 API Key（需使用阿里云 DashScope Key）
     dashscope_embedding_model: str = "text-embedding-v4"  # v4 支持多种维度（默认 1024）
 
     # Milvus 配置

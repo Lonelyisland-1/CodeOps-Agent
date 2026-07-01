@@ -148,6 +148,47 @@ class VectorStoreManager:
             logger.error(f"相似度搜索失败: {e}")
             return []
 
+    def list_sources(self) -> List[str]:
+        """
+        列出知识库中所有文件来源
+
+        Returns:
+            List[str]: 文件名称列表（去重）
+        """
+        try:
+            collection = milvus_manager.get_collection()
+            collection.load()
+
+            # 查询所有文档的 metadata 字段
+            results = collection.query(
+                expr="id != ''",
+                output_fields=["metadata"],
+                limit=10000
+            )
+
+            seen = set()
+            sources = []
+            for result in results:
+                metadata = result.get("metadata", {})
+                # metadata 可能是 dict 或 JSON 字符串
+                if isinstance(metadata, str):
+                    import json
+                    try:
+                        metadata = json.loads(metadata)
+                    except json.JSONDecodeError:
+                        continue
+                file_name = metadata.get("_file_name", "") if isinstance(metadata, dict) else ""
+                if file_name and file_name not in seen:
+                    seen.add(file_name)
+                    sources.append(file_name)
+
+            logger.info(f"列出知识库文件: 共 {len(sources)} 个文件")
+            return sources
+
+        except Exception as e:
+            logger.error(f"列出知识库文件失败: {e}")
+            return []
+
 
 # 全局单例
 vector_store_manager = VectorStoreManager()

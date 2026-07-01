@@ -17,7 +17,7 @@
 ## 🛠️ 技术栈
 
 - **框架**: FastAPI + LangChain + LangGraph
-- **LLM**: 阿里云 DashScope (通义千问)
+- **LLM**: 阿里云 DashScope (通义千问)+DeepSeek
 - **向量库**: Milvus(pymilvus + langchain-milvus), Docker Compose 部署
 - **工具协议**: MCP (Model Context Protocol)
 
@@ -233,9 +233,11 @@ super_biz_agent_py/
 ```bash
 # 阿里云LLM DashScope 配置（必填）
 # OpenAI兼容，默认使用deepseek
-DASHSCOPE_API_KEY=your-api-key （配置你自己的秘钥）
-DASHSCOPE_API_BASE=https://api.deepseek.com  # 不配置则默认会使用新加坡站点
+DASHSCOPE_API_KEY=your-api-key
+DASHSCOPE_API_BASE=https://api.deepseek.com  
 DASHSCOPE_MODEL=deepseek-v4-flash
+DASHSCOPE_EMBEDDING_API_KEY=your-api-key
+DASHSCOPE_EMBEDDING_MODEL=text-embedding-v4
 
 # Milvus 配置
 MILVUS_HOST=localhost
