@@ -108,10 +108,10 @@ python -c "import requests, os, time; [requests.post('http://localhost:9900/api/
 
 ```powershell
 # 启动所有服务
-.\start-windows.bat
+.\start.bat
 
 # 停止所有服务
-.\stop-windows.bat
+.\stop.bat
 ```
 
 ### 访问服务
